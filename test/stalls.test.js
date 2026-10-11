@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 import stalls from '../src/data/stalls.json' with { type: 'json' };
-import { searchStalls, sortStalls } from '../src/stalls.js';
+import { parsePrice, searchStalls, sortStalls } from '../src/stalls.js';
 
 describe('searchStalls', () => {
   it('searches by stall name', () => {
@@ -33,5 +33,21 @@ describe('sortStalls', () => {
       'Ah Mei Steam Rice',
       'Airport Road Wok House',
     ]);
+  });
+
+  // Regression: issue #1 — prices were compared as text, so S$10.00 sorted before S$3.80.
+  it('sorts by price numerically, cheapest first', () => {
+    const prices = sortStalls(stalls, 'price').map((stall) => stall.price);
+    assert.equal(prices[0], 'S$3.80');
+    assert.deepEqual(prices.slice(-3), ['S$10.00', 'S$11.50', 'S$12.00']);
+    const numeric = prices.map(parsePrice);
+    assert.deepEqual(numeric, [...numeric].sort((a, b) => a - b));
+  });
+});
+
+describe('parsePrice', () => {
+  it('parses S$ price strings into numbers', () => {
+    assert.equal(parsePrice('S$3.80'), 3.8);
+    assert.equal(parsePrice('S$12.00'), 12);
   });
 });

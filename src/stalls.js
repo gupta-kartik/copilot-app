@@ -23,8 +23,12 @@ export function sortStalls(stalls, key) {
   }
 
   if (key === 'price') {
-    return sorted.sort((a, b) => a.price.localeCompare(b.price));
+    return sorted.sort((a, b) => parsePrice(a.price) - parsePrice(b.price));
   }
 
   return sorted;
+}
+
+export function parsePrice(price) {
+  return Number.parseFloat(String(price).replace(/[^0-9.]/g, ''));
 }
