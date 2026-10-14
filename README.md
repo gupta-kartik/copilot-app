@@ -27,4 +27,4 @@ npm test
 
 ## About this repo
 
-This repository is a small demo app for the GitHub Copilot app talk at Microsoft AI Tour Singapore. It is designed so agents can recieve focused GitHub issues and work in parallel on separate files and branches.
+This repository is a small demo app for the GitHub Copilot app talk at Microsoft AI Tour Singapore. It is designed so agents can receive focused GitHub issues and work in parallel on separate files and branches.
